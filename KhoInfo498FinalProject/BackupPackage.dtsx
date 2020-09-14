@@ -1,0 +1,618 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="8/24/2019 11:38:48 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="KENTON"
+  DTS:CreatorName="KENTON\xboxp"
+  DTS:DTSID="{4F255036-F053-4B1B-AE2A-9765E23CB107}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="BackupPackage"
+  DTS:PackageType="5"
+  DTS:VersionBuild="6"
+  DTS:VersionGUID="{387E9A84-E2DE-441F-B8F6-FE9E3CF1F2B7}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[LocalHost.master]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{D55D1902-FCC4-4DE2-B7E9-7B0FB1C5DE57}"
+      DTS:ObjectName="LocalHost.master">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=.;Initial Catalog=master;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Backup DB Sequence Container"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{7608A2BB-35F0-44E3-9605-C8400D359491}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Backup DB Sequence Container">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Backup DB Sequence Container\DoctorSchedules DB"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{5552D18F-B701-4436-AC0E-5D557AF9BE7F}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="DoctorSchedules DB"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{D55D1902-FCC4-4DE2-B7E9-7B0FB1C5DE57}"
+              SQLTask:SqlStatementSource="Exec pMaintBackupDoctorsSchedules" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Backup DB Sequence Container\DWClinicReportsData DB"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{5A3C5122-98DC-4BC2-B275-156DFB1E1FF0}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="DWClinicReportsData DB"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{D55D1902-FCC4-4DE2-B7E9-7B0FB1C5DE57}"
+              SQLTask:SqlStatementSource="Exec pMaintBackupDWClinicReportData" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Backup DB Sequence Container\Patients DB"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{9543FD2C-A711-4A9F-9F9E-9CBFE3F3230E}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Patients DB"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{D55D1902-FCC4-4DE2-B7E9-7B0FB1C5DE57}"
+              SQLTask:SqlStatementSource="Exec pMaintBackupPatients" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Backup DB Sequence Container.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{9BFD66A6-7FCF-4179-AFF6-00C5036A4BE4}"
+          DTS:From="Package\Backup DB Sequence Container\DoctorSchedules DB"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\Backup DB Sequence Container\Patients DB" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Backup DB Sequence Container.PrecedenceConstraints[Constraint 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{413D0A33-4689-44E4-984F-AE5ED7E96B5C}"
+          DTS:From="Package\Backup DB Sequence Container\Patients DB"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 1"
+          DTS:To="Package\Backup DB Sequence Container\DWClinicReportsData DB" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Create Back up Device Sequence Container"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:Disabled="True"
+      DTS:DTSID="{35FF54F3-D4DB-4729-9C5D-05B99EC97CD6}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Create Back up Device Sequence Container">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Create Back up Device Sequence Container\DoctorSchedulesDevice"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{195590F3-0423-4C82-A9CE-E6E27EBA6F16}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="DoctorSchedulesDevice"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{D55D1902-FCC4-4DE2-B7E9-7B0FB1C5DE57}"
+              SQLTask:SqlStatementSource="Exec pCreateDoctorsSchedulesBackupDevice" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Create Back up Device Sequence Container\DWClinincReportDataDevice"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{2D143423-DE1C-4502-9C77-6C1F1097433C}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="DWClinincReportDataDevice"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{D55D1902-FCC4-4DE2-B7E9-7B0FB1C5DE57}"
+              SQLTask:SqlStatementSource="Exec pCreateDWClinicReportDataBackupDevice" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Create Back up Device Sequence Container\PatientDevice"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{CAFB58B2-6C14-40A9-A150-4992EC10A709}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="PatientDevice"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{D55D1902-FCC4-4DE2-B7E9-7B0FB1C5DE57}"
+              SQLTask:SqlStatementSource="Exec pCreatePatientsBackupDevice" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Create Back up Device Sequence Container.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{F7C251CD-7F20-4F30-967B-88817C5C87AE}"
+          DTS:From="Package\Create Back up Device Sequence Container\DoctorSchedulesDevice"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\Create Back up Device Sequence Container\PatientDevice" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Create Back up Device Sequence Container.PrecedenceConstraints[Constraint 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{3946A1F1-1CFE-4201-A2EF-63EE1CEE88DD}"
+          DTS:From="Package\Create Back up Device Sequence Container\PatientDevice"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 1"
+          DTS:To="Package\Create Back up Device Sequence Container\DWClinincReportDataDevice" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Refresh Development DB Sequence Container"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{6BFD0795-50AF-45C8-90ED-6CC3E15CA115}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Refresh Development DB Sequence Container">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Refresh Development DB Sequence Container\DoctorSchedulesDev"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{7EB7C746-12D2-45D1-8BA9-5B10FBDC218E}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="DoctorSchedulesDev"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{D55D1902-FCC4-4DE2-B7E9-7B0FB1C5DE57}"
+              SQLTask:SqlStatementSource="Exec pRefreshDoctorsSchedulesDev" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Refresh Development DB Sequence Container\DWClinincReportDev"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{2531F6CD-1D43-4823-954A-69CABB8CF7B0}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="DWClinincReportDev"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{D55D1902-FCC4-4DE2-B7E9-7B0FB1C5DE57}"
+              SQLTask:SqlStatementSource="Exec pRefreshDWClinicReportDataDev" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Refresh Development DB Sequence Container\PatientsDev"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{0072F442-C157-447A-A52F-BB0865BCBF6C}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="PatientsDev"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{D55D1902-FCC4-4DE2-B7E9-7B0FB1C5DE57}"
+              SQLTask:SqlStatementSource="Exec pRefreshPatientsDev" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Refresh Development DB Sequence Container.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{1DA585D4-26C8-4CE5-8754-D0143B603926}"
+          DTS:From="Package\Refresh Development DB Sequence Container\DoctorSchedulesDev"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\Refresh Development DB Sequence Container\PatientsDev" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Refresh Development DB Sequence Container.PrecedenceConstraints[Constraint 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{4A40FFC3-39E8-4A90-B03D-3ACD1AC1C170}"
+          DTS:From="Package\Refresh Development DB Sequence Container\PatientsDev"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 1"
+          DTS:To="Package\Refresh Development DB Sequence Container\DWClinincReportDev" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{F6E8A41A-AEF7-4493-8479-21D2E982D94B}"
+      DTS:From="Package\Create Back up Device Sequence Container"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Backup DB Sequence Container" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{A078CDEE-CCFF-456D-9737-D2550AE6BDB1}"
+      DTS:From="Package\Backup DB Sequence Container"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Refresh Development DB Sequence Container" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssge="clr-namespace:Microsoft.SqlServer.Graph.Extended;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:av="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+        <NodeLayout
+          Size="195.2,41.6"
+          Id="Package\Backup DB Sequence Container\DoctorSchedules DB"
+          TopLeft="13.3846166825154,65.6424297781579" />
+        <NodeLayout
+          Size="195.2,41.6"
+          Id="Package\Backup DB Sequence Container\Patients DB"
+          TopLeft="13.3846166825154,139.506068810046" />
+        <NodeLayout
+          Size="195.2,41.6"
+          Id="Package\Backup DB Sequence Container\DWClinicReportsData DB"
+          TopLeft="13.3846166825154,213.369707841935" />
+        <EdgeLayout
+          Id="Package\Backup DB Sequence Container.PrecedenceConstraints[Constraint]"
+          TopLeft="110.984616682515,107.242429778158">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,32.2636390318885"
+              Start="0,0"
+              End="0,24.7636390318885">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,24.7636390318885" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Backup DB Sequence Container.PrecedenceConstraints[Constraint 1]"
+          TopLeft="110.984616682515,181.106068810046">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,32.2636390318885"
+              Start="0,0"
+              End="0,24.7636390318885">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,24.7636390318885" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <AnnotationLayout
+          Text="This task backsup the data bases to their &#xD;&#xA;located backup devices"
+          ParentId="Package\Backup DB Sequence Container"
+          FontInfo="{x:Null}"
+          Size="246.4,60"
+          Id="becab805-b2ef-4cc5-a47c-442a7b2c239f"
+          TopLeft="1.78462328487635,0.533345230179975" />
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="348,310"
+          Size="348,353.2"
+          Id="Package\Backup DB Sequence Container"
+          TopLeft="715.717974970328,320.29900146948" />
+        <NodeLayout
+          Size="175.2,41.6"
+          Id="Package\Refresh Development DB Sequence Container\DoctorSchedulesDev"
+          TopLeft="16.1179611420496,62.4848548601921" />
+        <NodeLayout
+          Size="175.2,41.6"
+          Id="Package\Refresh Development DB Sequence Container\PatientsDev"
+          TopLeft="16.1179611420496,145.212130575907" />
+        <NodeLayout
+          Size="175.2,41.6"
+          Id="Package\Refresh Development DB Sequence Container\DWClinincReportDev"
+          TopLeft="16.1179611420496,227.939406291623" />
+        <EdgeLayout
+          Id="Package\Refresh Development DB Sequence Container.PrecedenceConstraints[Constraint]"
+          TopLeft="103.71796114205,104.084854860192">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,41.1272757157152"
+              Start="0,0"
+              End="0,33.6272757157152">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,33.6272757157152" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Refresh Development DB Sequence Container.PrecedenceConstraints[Constraint 1]"
+          TopLeft="103.71796114205,186.812130575907">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,41.1272757157153"
+              Start="0,0"
+              End="0,33.6272757157153">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,33.6272757157153" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <AnnotationLayout
+          Text="This Task Refreshes the Development&#xD;&#xA;backup databases"
+          ParentId="Package\Refresh Development DB Sequence Container"
+          FontInfo="{x:Null}"
+          Size="224,60"
+          Id="2d07a538-9d79-4366-b077-05bc843e6db3"
+          TopLeft="7.23079157722157,4.40001220992161" />
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="317.2,322"
+          Size="317.2,365.2"
+          Id="Package\Refresh Development DB Sequence Container"
+          TopLeft="161.153852064934,743.000026767905" />
+        <NodeLayout
+          Size="210.4,41.6"
+          Id="Package\Create Back up Device Sequence Container\DoctorSchedulesDevice"
+          TopLeft="17.5692388669983,71.9393997170491" />
+        <NodeLayout
+          Size="210.4,41.6"
+          Id="Package\Create Back up Device Sequence Container\PatientDevice"
+          TopLeft="17.5692388669983,142.454553779492" />
+        <NodeLayout
+          Size="210.4,41.6"
+          Id="Package\Create Back up Device Sequence Container\DWClinincReportDataDevice"
+          TopLeft="17.5692388669983,212.969707841935" />
+        <EdgeLayout
+          Id="Package\Create Back up Device Sequence Container.PrecedenceConstraints[Constraint]"
+          TopLeft="122.769238866998,113.539399717049">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,28.9151540624429"
+              Start="0,0"
+              End="0,21.4151540624429">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,21.4151540624429" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Create Back up Device Sequence Container.PrecedenceConstraints[Constraint 1]"
+          TopLeft="122.769238866998,184.054553779492">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,28.9151540624428"
+              Start="0,0"
+              End="0,21.4151540624428">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,21.4151540624428" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <AnnotationLayout
+          Text="This task creates backup devices for the databases on &#xD;&#xA;a folder located on C:drive called BackupFiles."
+          ParentId="Package\Create Back up Device Sequence Container"
+          FontInfo="{x:Null}"
+          Size="314.4,60"
+          Id="13e24200-c05e-41c0-a507-b053e4003691"
+          TopLeft="1.41539212063259,0.242427430096058" />
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="324.8,312"
+          Size="324.8,355.2"
+          Id="Package\Create Back up Device Sequence Container"
+          TopLeft="162.307698261103,137.878792859525" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="487.107698261103,315.478792859525">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="228.610276709225,181.420208609954"
+              Start="0,0"
+              End="221.110276709225,181.420208609954">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="110.305138354612,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="110.305138354612,0"
+                    Point2="114.305138354612,0"
+                    Point3="114.305138354612,4" />
+                  <mssgle:LineSegment
+                    End="114.305138354612,177.420208609954" />
+                  <mssgle:CubicBezierSegment
+                    Point1="114.305138354612,177.420208609954"
+                    Point2="114.305138354612,181.420208609954"
+                    Point3="118.305138354612,181.420208609954" />
+                  <mssgle:LineSegment
+                    End="221.110276709225,181.420208609954" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="889.717974970328,673.499001469479">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="-569.964122905393,69.5010252984252"
+              Start="0,0"
+              End="-569.964122905393,62.0010252984252">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,30.7505126492126" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,30.7505126492126"
+                    Point2="0,34.7505126492126"
+                    Point3="-4,34.7505126492126" />
+                  <mssgle:LineSegment
+                    End="-565.964122905393,34.7505126492126" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-565.964122905393,34.7505126492126"
+                    Point2="-569.964122905393,34.7505126492126"
+                    Point3="-569.964122905393,38.7505126492126" />
+                  <mssgle:LineSegment
+                    End="-569.964122905393,62.0010252984252" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <AnnotationLayout
+          Text="Run SQL File First to Create Sprocs on Master database"
+          ParentId="Package"
+          Size="666.4,60"
+          Id="3a5f5642-8048-4fe6-80fd-1065b4d533fb"
+          TopLeft="361.538474799614,10.2424246124218">
+          <AnnotationLayout.FontInfo>
+            <mssge:FontInfo
+              Family="Tahoma"
+              Size="26.100000381469727"
+              Color="#FF000000">
+              <mssge:FontInfo.TextDecorations>
+                <av:TextDecorationCollection>
+                  <av:TextDecoration
+                    Location="Underline" />
+                </av:TextDecorationCollection>
+              </mssge:FontInfo.TextDecorations>
+            </mssge:FontInfo>
+          </AnnotationLayout.FontInfo>
+        </AnnotationLayout>
+        <AnnotationLayout
+          Text="&lt;--- Disabled; Execute only if you haven't already created a backup device for these&#xD;&#xA;        databases. &#xD;&#xA;        Make sure to create a folder in C Drive called Back up files first before executing&#xD;&#xA;        the container."
+          ParentId="Package"
+          Size="629.6,92"
+          Id="06e4b067-1f5f-4a5a-a8bd-ac7ada111fba"
+          TopLeft="487.692325580756,147.333338655607">
+          <AnnotationLayout.FontInfo>
+            <mssge:FontInfo
+              Family="Tahoma"
+              Size="14.100000381469727"
+              Color="#FF000000"
+              Weight="Bold">
+              <mssge:FontInfo.TextDecorations>
+                <av:TextDecorationCollection />
+              </mssge:FontInfo.TextDecorations>
+            </mssge:FontInfo>
+          </AnnotationLayout.FontInfo>
+        </AnnotationLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
